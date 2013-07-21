@@ -120,6 +120,36 @@ cart.prototype.toNumber = function(value) {
   return isNaN(value) ? 0 : value;
 }
 
+cart.prototype.toCsv = function() {
+  var s = [];
+  var content = '';
+  var count = 0;
+  var total = 0;
+  var r = ['Item', 'Quantity', 'UOM', 'Unit Price', 'Nett'];
+  s.push(r.join(',') + "\n");
+  
+  for (var i = 0; i < this.items.length; i++) {
+	var item = this.items[i];
+	count += this.toNumber(item.quantity);
+	total += this.toNumber(item.quantity * item.price * item.uom.unit);
+	
+	r = [];
+	r.push(item.name);
+	r.push(item.quantity);
+	r.push(item.uom.code);
+	r.push(item.price);
+	r.push(item.price * item.quantity * item.uom.unit);
+	
+	s.push(r.join(',') + "\n");
+  }
+  
+  r = ['Total', count, '', '', total];
+  s.push(r.join(',') + "\n");
+  
+  content = s.join('');
+  return content;
+}
+
 function cartItem(sku, name, price, quantity, uom, catId) {
   this.sku = sku;
   this.name = name;

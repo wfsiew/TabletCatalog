@@ -70,10 +70,64 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
 
 ProductListCtrl.$inject = ['$scope', '$routeParams', '$http', '$filter', '$dialog', 'DataService'];
 
-function ShoppingCartCtrl($scope, DataService) {
+function ShoppingCartCtrl($scope, $dialog, DataService) {
   $scope.cart = DataService.cart;
+  $scope.fileSystem;
   
+  $scope.exportCart = function() {
+	$scope.createDir('TabletCart');
+  }
   
+  $scope.init = function() {
+    document.addEventListener("deviceready", $scope.onDeviceReady, true);
+  }
+  
+  $scope.onDeviceReady = function() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, $scope.onGetFSSuccess, $scope.fail);
+  }
+  
+  $scope.onGetFSSuccess = function(fileSystem) {
+    $scope.fileSystem = fileSystem;
+  }
+  
+  $scope.fail = function(error) {
+    alert('Error: ' + error.toString());
+  }
+  
+  $scope.createDir = function(dir) {
+	$scope.fileSystem.root.getDirectory(dir, 
+	  {create: true, exclusive: false}, 
+	  $scope.successCreateDir, $scope.fail);
+  }
+  
+  $scope.successCreateDir = function(parent) {
+	var file = 'cart_' + new Date().getTime() + '.csv';
+	parent.getFile(file, {create: true, exclusive: false}, 
+	  $scope.beginWrite, $scope.fail);
+  }
+  
+  $scope.beginWrite = function(f) {
+	f.createWriter(function(w) {
+      w.onwrite = function() {
+	    $scope.showMessage('Export complete');
+	  }
+      
+      var s = $scope.cart.toCsv();
+      w.write(s);
+	});
+  }
+  
+  $scope.showMessage = function(msg) {
+	var title = 'Export Cart';
+	var btns = [{result:'ok', label: 'OK', cssClass: 'btn-primary'}];
+
+	$dialog.messageBox(title, msg, btns)
+	  .open()
+	  .then(function(result) {
+	});
+  }
+  
+  $scope.init();
 }
 
-ShoppingCartCtrl.$inject = ['$scope', 'DataService'];
+ShoppingCartCtrl.$inject = ['$scope', '$dialog', 'DataService'];

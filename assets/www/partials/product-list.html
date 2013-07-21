@@ -1,0 +1,53 @@
+<div class="navbar navbar-static-top">
+  <input type="text" ng-model="query" placeholder="Search">
+  <div class="text-right right-space">
+    <a href="#/cart" ng-disabled="cart.getTotalCount() < 1">
+      <i class="icon-shopping-cart"></i>
+      <b>{{cart.getTotalCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
+    </a>
+  </div>
+</div>
+
+<ul class="thumbnails product-thumbs">
+  <li ng-repeat="product in products | filter:query">
+    <div class="thumbnail">
+      <img ng-src="img/category.{{catId}}/{{product.image}}">
+      <div>Code: {{product.sku}}</div>
+      <div>Name: {{product.name}}</div>
+      <div>Price: {{product.price}}</div>
+      <div>UOM:
+        <div class="btn-group display-inline">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            Select UOM
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-repeat="uom in product.uom">
+              <a ng-click="product.selecteduom = uom" ng-model="product.selecteduom">{{uom.code}}</a>
+            </li>
+          </ul>
+        </div>
+        &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>
+      </div>
+      <div>Quantity: <input ng-model="product.quantity" type="text" required ng-pattern="number"></div>
+      <div class="text-right">
+        <button class="btn btn-danger clearfix" type="button" 
+          ng-click="removeFromCart(product)" 
+          ng-disabled="cart.getTotalCount(product.sku) < 1">
+          <i class="icon-trash icon-white"></i> Remove from cart</button>
+        <button class="btn btn-success clearfix" type="button" 
+          ng-click="addToCart(product)">
+          <i class="icon-shopping-cart icon-white"></i> Add to cart
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+
+<div class="span4">
+  <p class="text-info">
+    <button class="btn" onclick="window.location.href='#/catalog'">
+      <i class="icon-chevron-left"></i> Back to categories
+    </button>
+  </p>
+</div>

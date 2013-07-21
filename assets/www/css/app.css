@@ -1,0 +1,40 @@
+body {
+  background-color: white;
+  padding-top: 20px;
+}
+
+.categories {
+  list-style: none;
+}
+
+ul.product-thumbs img {
+  height: 100px;
+  width: 100px;
+  padding: 1em;
+}
+
+.chk {
+  -webkit-transform: scale(2.0,2.0);
+  -moz-transform: scale(2.0,2.0);
+  -o-transform: scale(2.0,2.0);
+}
+
+.display-inline {
+  display: inline;
+}
+
+.right-space {
+  padding-right: 10px;
+}
+
+.table td.tdRight {
+  text-align: right;
+}
+
+.table td.tdCenter {
+  text-align: center;
+}
+
+.table-nonfluid {
+   width: auto;
+}

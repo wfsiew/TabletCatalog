@@ -1,0 +1,14 @@
+[
+  {"id": 1,
+  "sku": "NHH0040",
+  "name": "Colgate Kayu Sugi 75g (6x12's)",
+  "price": 2.48,
+  "image": "",
+  "uom": [{"code": "UNI", "unit": 1}, {"code": "DOZ", "unit": 12}, {"code": "CTN", "unit": 72}]},
+  {"id": 2,
+  "sku": "NHH045S",
+  "name": "Colgate Toothbrush ZigZag (S) (6x12's)",
+  "price": 2.88,
+  "image": "",
+  "uom": [{"code": "UNI", "unit": 1}, {"code": "DOZ", "unit": 12}, {"code": "CTN", "unit": 72}]}
+]

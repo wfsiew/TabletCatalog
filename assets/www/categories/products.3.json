@@ -1,0 +1,8 @@
+[
+  {"id": 1,
+  "sku": "NMS020",
+  "name": "Yeepi Premium Electronic Lighter (40x25's)",
+  "price": 0.75,
+  "image": "",
+  "uom": [{"code": "UNI", "unit": 1}, {"code": "OUT", "unit": 25}, {"code": "CTN", "unit": 1000}]}
+]

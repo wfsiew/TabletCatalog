@@ -1,0 +1,17 @@
+<div class="navbar navbar-static-top">
+  <input type="text" ng-model="query" placeholder="Search">
+  <div class="text-right right-space">
+    <a href="#/cart" ng-disabled="cart.getTotalCount() < 1">
+      <i class="icon-shopping-cart"></i>
+      <b>{{cart.getTotalCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
+    </a>
+  </div>
+</div>
+
+<ul class="nav nav-tabs nav-stacked">
+  <li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
+    <a href="#/catalog/{{cat.id}}">{{cat.name}}
+      <span class="pull-right" ng-hide="cart.getTotalCountByCategory(cat.id) < 1">{{cart.getTotalCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
+    </a>
+  </li>
+</ul>

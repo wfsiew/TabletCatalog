@@ -1,0 +1,8 @@
+[
+  {"id": 1,
+  "sku": "FCA065",
+  "name": "Snickers Peanut 3 in 1 (9x8x3x35g)",
+  "price": 3.32,
+  "image": "",
+  "uom": [{"code": "PAC", "unit": 1}, {"code": "OUT", "unit": 8}, {"code": "CTN", "unit": 72}]}
+]

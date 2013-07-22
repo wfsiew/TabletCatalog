@@ -138,12 +138,15 @@ function CartFilesCtrl($scope, $dialog) {
   $scope.fileSystem;
   $scope.mainDir;
   $scope.files = [];
+  $scope.networkState;
+  $scope.hasNetwork = false;
   
   $scope.init = function() {
     document.addEventListener("deviceready", $scope.onDeviceReady, true);
   }
 	  
   $scope.onDeviceReady = function() {
+	$scope.networkState = navigator.connection.type;
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, $scope.successGetFS, $scope.fail);
   }
   
@@ -183,6 +186,12 @@ function CartFilesCtrl($scope, $dialog) {
 	
 	$scope.files = a;
 	$scope.orderProp = '-createTime';
+	if ($scope.networkState != Connection.NONE && $scope.networkState != Connection.UNKNOWN)
+	  $scope.hasNetwork = true;
+				
+	else
+	  $scope.hasNetwork = false;
+	
 	$scope.$apply();
   }
   

@@ -1,6 +1,9 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span8">
+      <div ng-hide="hasNetwork">
+        <alert type="error">No network connection available</alert>
+      </div>
       <table class="table table-bordered">
         <tr class="well">
           <td><b>File</b></td>

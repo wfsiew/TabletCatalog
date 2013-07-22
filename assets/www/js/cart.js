@@ -135,10 +135,10 @@ cart.prototype.toCsv = function() {
 	
 	r = [];
 	r.push(item.name);
-	r.push(item.quantity);
+	r.push(this.toNumber(item.quantity));
 	r.push(item.uom.code);
-	r.push(item.price);
-	r.push(item.price * item.quantity * item.uom.unit);
+	r.push(this.toNumber(item.price));
+	r.push(this.toNumber(item.price * item.quantity * item.uom.unit));
 	
 	s.push(r.join(',') + "\n");
   }

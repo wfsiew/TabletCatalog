@@ -124,18 +124,18 @@ cart.prototype.toCsv = function() {
   s.push(r.join(',') + "\n");
   
   for (var i = 0; i < this.items.length; i++) {
-	var item = this.items[i];
-	count += utils.toNumber(item.quantity);
-	total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
-	
-	r = [];
-	r.push(item.name);
-	r.push(utils.toNumber(item.quantity));
-	r.push(item.uom.code);
-	r.push(utils.toNumber(item.price));
-	r.push(utils.toFixNumber(item.price * item.quantity * item.uom.unit));
-	
-	s.push(r.join(',') + "\n");
+    var item = this.items[i];
+    count += utils.toNumber(item.quantity);
+    total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
+  
+    r = [];
+    r.push(item.name);
+    r.push(utils.toNumber(item.quantity));
+    r.push(item.uom.code);
+    r.push(utils.toNumber(item.price));
+    r.push(utils.toFixNumber(item.price * item.quantity * item.uom.unit));
+  
+    s.push(r.join(',') + "\n");
   }
   
   r = ['Total', count, '', '', total];

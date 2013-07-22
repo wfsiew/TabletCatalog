@@ -43,14 +43,14 @@ cart.prototype.saveItems = function() {
 }
 
 cart.prototype.addItem = function(sku, name, price, quantity, uom, catId) {
-  quantity = this.toNumber(quantity);
+  quantity = utils.toNumber(quantity);
   if (quantity != 0) {
     var found = false;
     for (var i = 0; i < this.items.length && !found; i++) {
       var item = this.items[i];
       if (item.sku == sku && uom.code == item.uom.code) {
         found = true;
-        item.quantity = this.toNumber(item.quantity + quantity);
+        item.quantity = utils.toNumber(item.quantity + quantity);
         if (item.quantity <= 0) {
           this.items.splice(i, 1);
         }
@@ -71,7 +71,7 @@ cart.prototype.getTotalPrice = function(sku) {
   for (var i = 0; i < this.items.length; i++) {
     var item = this.items[i];
     if (sku == null || item.sku == sku) {
-      total += this.toNumber(item.quantity * item.price * item.uom.unit);
+      total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
     }
   }
   return total;
@@ -82,7 +82,7 @@ cart.prototype.getTotalPriceByCategory = function(catId) {
   for (var i = 0; i < this.items.length; i++) {
     var item = this.items[i];
     if (catId == item.catId) {
-      total += this.toNumber(item.quantity * item.price * item.uom.unit);
+      total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
     }
   }
   return total;
@@ -93,7 +93,7 @@ cart.prototype.getTotalCount = function(sku) {
   for (var i = 0; i < this.items.length; i++) {
     var item = this.items[i];
     if (sku == null || item.sku == sku) {
-      count += this.toNumber(item.quantity);
+      count += utils.toNumber(item.quantity);
     }
   }
   return count;
@@ -104,7 +104,7 @@ cart.prototype.getTotalCountByCategory = function(catId) {
   for (var i = 0; i < this.items.length; i++) {
     var item = this.items[i];
     if (catId == item.catId) {
-      count += this.toNumber(item.quantity);
+      count += utils.toNumber(item.quantity);
     }
   }
   return count;
@@ -113,11 +113,6 @@ cart.prototype.getTotalCountByCategory = function(catId) {
 cart.prototype.clearItems = function() {
   this.items = [];
   this.saveItems();
-}
-
-cart.prototype.toNumber = function(value) {
-  value = value * 1;
-  return isNaN(value) ? 0 : value;
 }
 
 cart.prototype.toCsv = function() {
@@ -130,15 +125,15 @@ cart.prototype.toCsv = function() {
   
   for (var i = 0; i < this.items.length; i++) {
 	var item = this.items[i];
-	count += this.toNumber(item.quantity);
-	total += this.toNumber(item.quantity * item.price * item.uom.unit);
+	count += utils.toNumber(item.quantity);
+	total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
 	
 	r = [];
 	r.push(item.name);
-	r.push(this.toNumber(item.quantity));
+	r.push(utils.toNumber(item.quantity));
 	r.push(item.uom.code);
-	r.push(this.toNumber(item.price));
-	r.push(this.toNumber(item.price * item.quantity * item.uom.unit));
+	r.push(utils.toNumber(item.price));
+	r.push(utils.toFixNumber(item.price * item.quantity * item.uom.unit));
 	
 	s.push(r.join(',') + "\n");
   }

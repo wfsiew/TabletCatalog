@@ -39,7 +39,8 @@
           ng-disabled="cart.getTotalCount(product.sku) < 1">
           <i class="icon-trash icon-white"></i> Remove from cart</button>
         <button class="btn btn-success clearfix" type="button" 
-          ng-click="addToCart(product)">
+          ng-click="addToCart(product)" 
+          ng-disabled="product.selecteduom == null || isNaN(product.quantity)">
           <i class="icon-shopping-cart icon-white"></i> Add to cart
         </button>
       </div>

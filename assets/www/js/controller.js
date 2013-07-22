@@ -182,7 +182,7 @@ function CartFilesCtrl($scope, $dialog) {
 	}
 	
 	$scope.files = a;
-	$scope.orderProp = '-modtime';
+	$scope.orderProp = '-createTime';
 	$scope.$apply();
   }
   

@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span8">
+      <table class="table table-bordered">
+        <tr class="well">
+          <td><b>File</b></td>
+          <td><b>Date</b></td>
+          <td></td>
+        </tr>
+        <tr ng-hide="files.length > 0">
+          <td class="tdCenter" colspan="2">
+            Folder is empty.
+          </td>
+        </tr>
+        <tr ng-repeat="f in files | orderBy:orderProp">
+          <td>
+            <a href="" ng-click="sendEmail(f)" 
+              tooltip="{{f.fullPath}}" 
+              tooltip-trigger="mouseenter" 
+              tooltip-placement="bottom">{{f.name}}</a>
+          </td>
+          <td>{{f.createTime | date:'dd/MM/yyyy hh:mm:ss a'}}</td>
+          <td class="tdcenter" title="remove file">
+            <a href="" ng-click="removeFile(f)">
+              <i class="icon-remove"></i>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="span4">
+      <p class="text-info">
+        <button class="btn btn-block" onclick="window.location.href='#/catalog'">
+          <i class="icon-chevron-left"></i> Back to categories
+        </button>
+      </p>
+    </div>
+  </div>
+</div>

@@ -8,9 +8,10 @@
           <td class="tdCenter"><b>UOM</b></td>
           <td class="tdRight"><b>Unit Price</b></td>
           <td class="tdRight"><b>Nett</b></td>
+          <td></td>
         </tr>
         <tr ng-hide="cart.getTotalCount() > 0">
-          <td class="tdCenter" colspan="4">
+          <td class="tdCenter" colspan="5">
             Your cart is empty.
           </td>
         </tr>
@@ -65,6 +66,9 @@
           ng-click="exportCart()" 
           ng-disabled="cart.getTotalCount() < 1">
           <i class="icon-download"></i> Export
+        </button>
+        <button class="btn btn-block btn-primary" onclick="window.location.href='#/cart/files'">
+          <i class="icon-file"></i> Invoices
         </button>
       </p>
     </div>

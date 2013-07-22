@@ -1,6 +1,9 @@
 <div class="navbar navbar-static-top">
   <input type="text" ng-model="query" placeholder="Search">
   <div class="text-right right-space">
+    <a href="#/cart/files">
+      <b>Invoices</b>
+    </a> | 
     <a href="#/cart" ng-disabled="cart.getTotalCount() < 1">
       <i class="icon-shopping-cart"></i>
       <b>{{cart.getTotalCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>

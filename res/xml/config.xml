@@ -106,5 +106,6 @@
         <plugin name="Notification" value="org.apache.cordova.Notification"/>
         <plugin name="File" value="org.apache.cordova.FileUtils"/>
         <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
+        <plugin name="EmailComposer" value="org.apache.cordova.EmailComposer"/>
     </plugins>
 </widget>

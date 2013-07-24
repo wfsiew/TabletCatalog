@@ -107,5 +107,6 @@
         <plugin name="File" value="org.apache.cordova.FileUtils"/>
         <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
         <plugin name="EmailComposer" value="org.apache.cordova.EmailComposer"/>
+        <plugin name="SQLitePlugin" value="org.pgsqlite.SQLitePlugin"/>
     </plugins>
 </widget>

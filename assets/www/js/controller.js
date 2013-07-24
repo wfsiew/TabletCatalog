@@ -1,22 +1,83 @@
 function CategoryListCtrl($scope, $http, DataService) {
   $scope.cart = DataService.cart;
+  $scope.db;
   
-  $http.get('categories/categories.json').success(function(data) {
-    $scope.categories = data;
-    $scope.orderProp = 'name';
-  });
+  $scope.init = function() {
+    document.addEventListener("deviceready", $scope.onDeviceReady, true);
+  }
+	  
+  $scope.onDeviceReady = function() {
+    $scope.db = window.sqlitePlugin.openDatabase({name: 'category'});
+    $scope.loadData();
+  }
+  
+  $scope.loadData = function() {
+    $scope.db.transaction(function(tx) {
+      tx.executeSql('select * from category order by name;', [], function(tx, res) {
+	    var n = res.rows.length;
+	    var a = [];
+	    for (var i = 0; i < n; i++) {
+	      var r = res.rows.item(i);
+	      a.push({id: r.id, name: r.name});
+	    }
+	    
+	    $scope.categories = a;
+	    $scope.orderProp = 'name';
+        $scope.$apply();
+      });
+    });
+  }
+  
+  $scope.init();
+  
+//  $http.get('categories/categories.json').success(function(data) {
+//    $scope.categories = data;
+//    $scope.orderProp = 'name';
+//  });
 }
 
 CategoryListCtrl.$inject = ['$scope', '$http', 'DataService'];
 
 function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataService) {
   $scope.cart = DataService.cart;
+  $scope.db;
   
-  $http.get('categories/products.' + $routeParams.catId + '.json').success(function(data) {
-    $scope.products = data;
-    $scope.catId = $routeParams.catId;
-    $scope.number = /^\d+$/;
-  });
+  $scope.init = function() {
+	document.addEventListener("deviceready", $scope.onDeviceReady, true);
+  }
+  
+  $scope.onDeviceReady = function() {
+    $scope.db = window.sqlitePlugin.openDatabase({name: 'product.' + $routeParams.catId});
+    $scope.loadData();
+  }
+  
+  $scope.loadData = function() {
+	$scope.db.transaction(function(tx) {
+	  tx.executeSql('select * from product order by sku limit 0, 50;', [], function(tx, res) {
+        var n = res.rows.length;
+        var a = [];
+        for (var i = 0; i < n; i++) {
+		  var r = res.rows.item(i);
+		  var uom = [];
+		  if (JSON != null) {
+            uom = JSON.parse(r.uom);
+		  }
+		  a.push({id: r.id, sku: r.sku, name: r.name, price: r.price, image: '', uom: uom});
+		}
+        
+        $scope.products = a;
+        $scope.catId = $routeParams.catId;
+        $scope.number = /^\d+$/;
+        $scope.$apply();
+	  });
+	});
+  }
+  
+//  $http.get('categories/products.' + $routeParams.catId + '.json').success(function(data) {
+//    $scope.products = data;
+//    $scope.catId = $routeParams.catId;
+//    $scope.number = /^\d+$/;
+//  });
   
   $scope.addToCart = function(product) {
     if (product.selecteduom == null) {
@@ -66,6 +127,8 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
       
     return list.length > 0 ? false : true;
   }
+  
+  $scope.init();
 }
 
 ProductListCtrl.$inject = ['$scope', '$routeParams', '$http', '$filter', '$dialog', 'DataService'];
@@ -75,7 +138,7 @@ function ShoppingCartCtrl($scope, $dialog, DataService) {
   $scope.fileSystem;
   
   $scope.exportCart = function() {
-    $scope.createDir('TabletInvoice');
+    $scope.createDir('TabletOrder');
   }
   
   $scope.init = function() {

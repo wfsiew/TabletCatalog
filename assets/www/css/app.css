@@ -38,3 +38,8 @@ ul.product-thumbs img {
 .table-nonfluid {
    width: auto;
 }
+
+.menu {
+	display: block;
+	position: static;
+}

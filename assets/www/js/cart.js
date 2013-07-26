@@ -2,6 +2,7 @@ function cart(cartName) {
   this.cartName = cartName;
   this.clearCart = false;
   this.items = [];
+  this.customer = null;
   
   this.loadItems();
   
@@ -88,6 +89,17 @@ cart.prototype.getTotalPriceByCategory = function(catId) {
   return total;
 }
 
+cart.prototype.getItemCount = function(sku) {
+  var count = 0;
+  for (var i = 0; i < this.items.length; i++) {
+    var item = this.items[i];
+    if (sku == null || item.sku == sku) {
+      ++count;
+    }
+  }
+  return count;
+}
+
 cart.prototype.getTotalCount = function(sku) {
   var count = 0;
   for (var i = 0; i < this.items.length; i++) {
@@ -95,6 +107,17 @@ cart.prototype.getTotalCount = function(sku) {
     if (sku == null || item.sku == sku) {
       count += utils.toNumber(item.quantity);
     }
+  }
+  return count;
+}
+
+cart.prototype.getItemCountByCategory = function(catId) {
+  var count = 0;
+  for (var i = 0; i < this.items.length; i++) {
+	var item = this.items[i];
+	if (catId == item.catId) {
+	  ++count;
+	}
   }
   return count;
 }
@@ -139,7 +162,9 @@ cart.prototype.toCsv = function() {
   }
   
   r = ['Total', count, '', '', total];
-  s.push(r.join(',') + "\n");
+  s.push(r.join(',') + "\n\n");
+  s.push('Customer name: ' + this.customer.name + "\n");
+  s.push('Acc/No: ' + this.customer.accno + "\n");
   
   content = s.join('');
   return content;

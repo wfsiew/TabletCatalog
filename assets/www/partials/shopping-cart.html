@@ -52,23 +52,25 @@
         <button class="btn btn-block" onclick="window.location.href='#/catalog'">
           <i class="icon-chevron-left"></i> Back to categories
         </button>
-        <button class="btn btn-block btn-danger" 
-          ng-click="cart.clearItems()" 
-          ng-disabled="cart.getTotalCount() < 1">
-          <i class="icon-trash icon-white"></i> Clear cart
-        </button>
       </p>
       
       <br/>
       
       <p class="text-info">
+        <button class="btn btn-block btn-primary"
+          ng-click="setCustomer()">Change Customer</button>
         <button class="btn btn-block btn-primary" 
           ng-click="exportCart()" 
           ng-disabled="cart.getTotalCount() < 1">
           <i class="icon-download"></i> Export
         </button>
         <button class="btn btn-block btn-primary" onclick="window.location.href='#/cart/files'">
-          <i class="icon-file"></i> Invoices
+          <i class="icon-file"></i> Orders
+        </button>
+        <button class="btn btn-block btn-danger" 
+          ng-click="cart.clearItems()" 
+          ng-disabled="cart.getTotalCount() < 1">
+          <i class="icon-trash icon-white"></i> Clear cart
         </button>
       </p>
     </div>

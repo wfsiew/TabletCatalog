@@ -3,11 +3,11 @@
   
   <div class="text-right right-space">
     <a href="#/cart/files">
-      <b>Invoices</b>
+      <b>Orders</b>
     </a> | 
-    <a href="#/cart" ng-disabled="cart.getTotalCount() < 1">
+    <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
       <i class="icon-shopping-cart"></i>
-      <b>{{cart.getTotalCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
+      <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
     </a>
   </div>
 </div>
@@ -15,7 +15,7 @@
 <ul class="nav nav-tabs nav-stacked">
   <li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
     <a href="#/catalog/{{cat.id}}">{{cat.name}}
-      <span class="pull-right" ng-hide="cart.getTotalCountByCategory(cat.id) < 1">{{cart.getTotalCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
+      <span class="pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
     </a>
   </li>
 </ul>

@@ -2,51 +2,60 @@
   <input type="text" ng-model="query" placeholder="Search">
   <div class="text-right right-space">
     <a href="#/cart/files">
-      <b>Invoices</b>
+      <b>Orders</b>
     </a> | 
-    <a href="#/cart" ng-disabled="cart.getTotalCount() < 1">
+    <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
       <i class="icon-shopping-cart"></i>
-      <b>{{cart.getTotalCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
+      <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
     </a>
   </div>
 </div>
 
+<pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
+
 <ul class="thumbnails product-thumbs">
   <li ng-repeat="product in products | filter:query">
     <div class="thumbnail">
-      <img ng-src="img/category.{{catId}}/{{product.image}}">
-      <div>Code: {{product.sku}}</div>
-      <div>Name: {{product.name}}</div>
+      <img ng-src="img/category.1/x001.jpg" class="pull-left">
+      <div>{{product.sku}}</div>
+      <div>{{product.name}}</div>
       <div>Price: {{product.price}}</div>
-      <div>UOM:
-        <div class="btn-group display-inline">
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            Select UOM
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li ng-repeat="uom in product.uom">
-              <a ng-click="product.selecteduom = uom" ng-model="product.selecteduom">{{uom.code}}</a>
-            </li>
-          </ul>
-        </div>
-        &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>
-      </div>
-      <div>Quantity: <input ng-model="product.quantity" type="text" required ng-pattern="number"></div>
+      <hr/>
+      <table>
+        <tr>
+          <td valign="top">UOM: </td>
+          <td>
+            <ul class="dropdown-menu menu" role="menu" aria-labelledby="dropdownMenu">
+              <li ng-repeat="uom in product.uom">
+                <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.unit * product.price}}</a>
+              </li>
+            </ul>
+            &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Quantity: </td>
+          <td>
+            <input ng-change="checkPending(product)" ng-model="product.quantity" type="number" min="1" style="width: 80px" required ng-pattern="number">
+          </td>
+        </tr>
+      </table>
       <div class="text-right">
         <button class="btn btn-danger clearfix" type="button" 
           ng-click="removeFromCart(product)" 
-          ng-disabled="cart.getTotalCount(product.sku) < 1">
+          ng-disabled="cart.getItemCount(product.sku) < 1">
           <i class="icon-trash icon-white"></i> Remove from cart</button>
         <button class="btn btn-success clearfix" type="button" 
           ng-click="addToCart(product)" 
-          ng-disabled="product.selecteduom == null || isNaN(product.quantity)">
+          ng-disabled="product.selecteduom == null || isNaN(product.quantity) || product.quantity == null">
           <i class="icon-shopping-cart icon-white"></i> Add to cart
         </button>
       </div>
     </div>
   </li>
 </ul>
+
+<pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
 
 <div class="span4">
   <p class="text-info">

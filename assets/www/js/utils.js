@@ -9,8 +9,20 @@ var utils = (function() {
     return v;
   }
   
+  function customerDialogOpts() {
+    var opts = {
+      backdrop: true,
+      keyboard: false,
+      backdropClick: false,
+      templateUrl: 'partials/customer.html',
+      controller: 'CustomerDialogCtrl'
+    };
+    return opts;
+  }
+  
   return {
     toNumber: toNumber,
-    toFixNumber: toFixNumber
+    toFixNumber: toFixNumber,
+    customerDialogOpts: customerDialogOpts
   }
 }());

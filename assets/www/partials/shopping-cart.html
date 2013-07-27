@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span8">
-      <table class="table table-bordered">
+      <table class="table table-bordered table-striped">
         <tr class="well">
           <td><b>Item</b></td>
           <td class="tdCenter"><b>Quantity</b></td>
@@ -33,7 +33,7 @@
           <td class="tdRight">{{item.price * item.quantity * item.uom.unit | currency}}</td>
           <td class="tdCenter" title="remove from cart">
             <a href="" ng-click="cart.addItem(item.sku, item.name, item.price, -10000000, item.uom, item.catId)">
-              <i class="icon-remove"></i>
+              <i class="icon-remove icon-white"></i>
             </a>
           </td>
         </tr>
@@ -50,7 +50,7 @@
     <div class="span4">
       <p class="text-info">
         <button class="btn btn-block" onclick="window.location.href='#/catalog'">
-          <i class="icon-chevron-left"></i> Back to categories
+          <i class="icon-chevron-left icon-white"></i> Back to categories
         </button>
       </p>
       

@@ -1,4 +1,4 @@
-angular.module('myapp', ['myappServices', 'ui.bootstrap']).
+angular.module('myapp', ['myappServices', 'ui.bootstrap', 'ui.utils']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
       when('/catalog', {

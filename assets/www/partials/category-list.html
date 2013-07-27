@@ -24,9 +24,8 @@
 
 <ul class="nav nav-tabs nav-stacked">
 	<li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
-		<a href="#/catalog/{{cat.id}}">{{cat.name}} <span
-			class="pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}},
-				{{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
-	</a>
+		<a href="#/catalog/{{cat.id}}">
+		  {{cat.name}} <span class="pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
+	  </a>
 	</li>
 </ul>

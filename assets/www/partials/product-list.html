@@ -1,13 +1,21 @@
 <div class="navbar navbar-static-top">
-  <input type="text" ng-model="query" placeholder="Search">
-  <div class="text-right right-space">
-    <a href="#/cart/files">
-      <b>Orders</b>
-    </a> | 
-    <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
-      <i class="icon-shopping-cart"></i>
-      <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
-    </a>
+  <div class="navbar-inner">
+    <div class="container">
+      <form class="navbar-search">
+        <input type="text" ng-model="query" placeholder="Search">
+      </form>
+      <ul class="nav pull-right">
+        <li>
+          <a href="#/cart/files"> <b>Orders</b></a>
+        </li>
+        <li class="divider-vertical"></li>
+        <li>
+          <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
+            <i class="icon-shopping-cart"></i> <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -27,7 +35,7 @@
           <td>
             <ul class="dropdown-menu menu" role="menu" aria-labelledby="dropdownMenu">
               <li ng-repeat="uom in product.uom">
-                <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.unit * product.price}}</a>
+                <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.unit * product.price | currency}}</a>
               </li>
             </ul>
             &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>

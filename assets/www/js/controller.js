@@ -266,7 +266,6 @@ function ShoppingCartCtrl($scope, $dialog, DataService) {
     f.createWriter(function(w) {
       w.onwrite = function() {
         $scope.cart.clearItems();
-        $scope.order.clear();
         $scope.showMessage('Export complete');
       }
       

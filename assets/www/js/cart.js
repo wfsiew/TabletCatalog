@@ -152,7 +152,7 @@ cart.prototype.toCsv = function() {
     total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
   
     r = [];
-    r.push(item.name);
+    r.push('[' + item.sku + '] ' + item.name);
     r.push(utils.toNumber(item.quantity));
     r.push(item.uom.code);
     r.push(utils.toNumber(item.price));

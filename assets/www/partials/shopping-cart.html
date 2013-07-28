@@ -16,7 +16,7 @@
           </td>
         </tr>
         <tr ng-repeat="item in cart.items | orderBy:'name'">
-          <td>{{item.name}}</td>
+          <td>[{{item.sku}}] {{item.name}}</td>
           <td class="tdCenter">
             <div class="input-append">
               <input class="span3 text-center" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />

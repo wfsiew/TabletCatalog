@@ -430,11 +430,15 @@ function CartFilesCtrl($scope, $dialog, DataService) {
 
 CartFilesCtrl.$inject = ['$scope', '$dialog', 'DataService'];
 
-function CustomerDialogCtrl($scope, dialog) {
+function CustomerDialogCtrl($scope, dialog, DataService) {
+  if (DataService.order.customer.name != null) {
+    $scope.result = DataService.order.customer;
+  }
+
   $scope.close = function(result) {
   if (result.name != null && result.accno != null)
     dialog.close(result);
   }
 }
 
-CustomerDialogCtrl.$inject = ['$scope', 'dialog'];
+CustomerDialogCtrl.$inject = ['$scope', 'dialog', 'DataService'];

@@ -152,16 +152,16 @@ cart.prototype.toCsv = function() {
     total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
   
     r = [];
-    r.push('[' + item.sku + '] ' + item.name);
+    r.push('[' + item.sku + '] ' + item.name + ' ' + item.uom.label);
     r.push(utils.toNumber(item.quantity));
     r.push(item.uom.code);
-    r.push(utils.toNumber(item.price));
-    r.push(utils.toFixNumber(item.price * item.quantity * item.uom.unit));
+    r.push(utils.toFixNumberStr(item.price * item.uom.unit));
+    r.push(utils.toFixNumberStr(item.price * item.quantity * item.uom.unit));
   
     s.push(r.join(',') + "\n");
   }
   
-  r = ['Total', count, '', '', total];
+  r = ['Total', count, '', '', utils.toFixNumberStr(total)];
   s.push(r.join(',') + "\n\n");
   s.push('Customer name: ' + this.customer.name + "\n");
   s.push('Acc/No: ' + this.customer.accno + "\n");

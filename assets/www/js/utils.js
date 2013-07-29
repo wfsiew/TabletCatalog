@@ -9,6 +9,11 @@ var utils = (function() {
     return v;
   }
   
+  function toFixNumberStr(value) {
+    var v = toFixNumber(value).toFixed(2);
+    return v;
+  }
+  
   function customerDialogOpts() {
     var opts = {
       backdrop: true,
@@ -23,6 +28,7 @@ var utils = (function() {
   return {
     toNumber: toNumber,
     toFixNumber: toFixNumber,
+    toFixNumberStr: toFixNumberStr,
     customerDialogOpts: customerDialogOpts
   }
 }());

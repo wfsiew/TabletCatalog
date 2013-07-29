@@ -2,7 +2,7 @@
   <div class="navbar-inner">
     <div class="container">
       <form class="navbar-search">
-        <input type="text" ng-model="query" placeholder="Search">
+        <input type="text" ng-model="query" placeholder="Search" ui-event="{keypress: 'searchKeypress()', keyup: 'searchKeyup()'}">
       </form>
       <ul class="nav pull-right">
         <li>
@@ -22,7 +22,7 @@
 <pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
 
 <ul class="thumbnails product-thumbs">
-  <li ng-repeat="product in products | filter:query">
+  <li ng-repeat="product in products">
     <div class="thumbnail">
       <img ng-src="img/category.1/x001.jpg" class="pull-left">
       <div>{{product.sku}}</div>

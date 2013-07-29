@@ -69,6 +69,8 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
   $scope.pagesize = 20;
   $scope.pager;
   $scope.product;
+  $scope.typingTimer;
+  $scope.doneTypingInterval = 3000;
   
   $scope.init = function() {
     document.addEventListener("deviceready", $scope.onDeviceReady, true);
@@ -80,8 +82,18 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
   }
   
   $scope.loadData = function() {
+    var q = 'select count(id) as cnt from product';
+    var p = [];
+    
+	if ($scope.query != null) {
+      q += ' where name like ?';
+      p = ['%' + $scope.query + '%'];
+    }
+	
+    q += ';';
+	
     $scope.db.transaction(function(tx) {
-      tx.executeSql('select count(id) as cnt from product;', [], function(tx, res) {
+      tx.executeSql(q, p, function(tx, res) {
         $scope.total = res.rows.item(0).cnt;
         $scope.pager = new pager($scope.total, 1, $scope.pagesize);
         $scope.loadPage(tx);
@@ -97,7 +109,17 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
   }
   
   $scope.loadPage = function(tx) {
-    tx.executeSql('select * from product order by name limit ' + $scope.pager.lowerBound() + ', ' + $scope.pager.pagesize + ';', [], function(tx, res) {
+    var q = 'select * from product';
+    var p = [];
+    
+    if ($scope.query != null) {
+      q += ' where name like ?';
+      p = ['%' + $scope.query + '%'];
+    }
+    
+    q += ' order by name limit ' + $scope.pager.lowerBound() + ', ' + $scope.pager.pagesize + ';';
+    
+    tx.executeSql(q, p, function(tx, res) {
       var n = res.rows.length;
       var a = [];
       for (var i = 0; i < n; i++) {
@@ -202,6 +224,19 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
       return true;
       
     return list.length > 0 ? false : true;
+  }
+  
+  $scope.search = function() {
+    $scope.loadData();
+  }
+	  
+  $scope.searchKeyup = function() {
+    clearTimeout($scope.typingTimer);
+    $scope.typingTimer = setTimeout($scope.search, $scope.doneTypingInterval);
+  }
+	  
+  $scope.searchKeypress = function() {
+    clearTimeout($scope.typingTimer);
   }
   
   $scope.init();

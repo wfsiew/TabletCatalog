@@ -29,7 +29,7 @@
             </div>
           </td>
           <td class="tdCenter">{{item.uom.code}}</td>
-          <td class="tdRight">{{item.price}}</td>
+          <td class="tdRight">{{item.price * item.uom.unit | currency}}</td>
           <td class="tdRight">{{item.price * item.quantity * item.uom.unit | currency}}</td>
           <td class="tdCenter" title="remove from cart">
             <a href="" ng-click="cart.addItem(item.sku, item.name, item.price, -10000000, item.uom, item.catId)">

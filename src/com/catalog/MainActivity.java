@@ -13,12 +13,13 @@ public class MainActivity extends DroidGap {
 		super.onCreate(savedInstanceState);
 		
 		try {
-			 String pName = this.getClass().getPackage().getName();
-			 String dest = "/data/data/" + pName + "/databases/";
-			 copy("category.db", dest);
-			 copy("product.1.db", dest);
-			 copy("product.2.db", dest);
-			 copy("product.3.db", dest);
+			String pName = this.getClass().getPackage().getName();
+			String dest = "/data/data/" + pName + "/databases/";
+			copy("category.db", dest);
+			 
+			for (int i = 1; i < 13; i++) {
+				copy(String.format("product.%d.db", i), dest);
+			}
 		}
 		
 		catch (IOException ex) {

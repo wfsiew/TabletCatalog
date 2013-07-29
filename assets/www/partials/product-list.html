@@ -27,7 +27,7 @@
       <img ng-src="img/category.1/x001.jpg" class="pull-left">
       <div>{{product.sku}}</div>
       <div>{{product.name}}</div>
-      <div>Price: {{product.price}}</div>
+      <div>Price: {{product.price | currency}}</div>
       <hr/>
       <table>
         <tr>
@@ -35,7 +35,7 @@
           <td>
             <ul class="dropdown-menu menu" role="menu" aria-labelledby="dropdownMenu">
               <li ng-repeat="uom in product.uom">
-                <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.unit * product.price | currency}}</a>
+                <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.label}} {{uom.unit * product.price | currency}}</a>
               </li>
             </ul>
             &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>

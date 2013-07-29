@@ -97,7 +97,7 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
   }
   
   $scope.loadPage = function(tx) {
-    tx.executeSql('select * from product order by sku limit ' + $scope.pager.lowerBound() + ', ' + $scope.pager.pagesize + ';', [], function(tx, res) {
+    tx.executeSql('select * from product order by name limit ' + $scope.pager.lowerBound() + ', ' + $scope.pager.pagesize + ';', [], function(tx, res) {
       var n = res.rows.length;
       var a = [];
       for (var i = 0; i < n; i++) {

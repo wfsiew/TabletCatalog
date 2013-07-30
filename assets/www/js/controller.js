@@ -4,6 +4,7 @@ function CategoryListCtrl($scope, $http, $dialog, DataService) {
   $scope.db;
   
   $scope.init = function() {
+    navigator.notification.beep(1);
     var opts = utils.customerDialogOpts();
     if ($scope.order.customer.name == null) {
       $dialog.dialog(opts)

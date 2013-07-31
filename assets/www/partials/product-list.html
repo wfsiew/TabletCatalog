@@ -4,17 +4,6 @@
       <form class="navbar-search">
         <input type="text" ng-model="query" placeholder="Search" ui-event="{keypress: 'searchKeypress()', keyup: 'searchKeyup()'}">
       </form>
-      <ul class="nav pull-right">
-        <li>
-          <a href="#/cart/files"> <b>Orders</b></a>
-        </li>
-        <li class="divider-vertical"></li>
-        <li>
-          <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
-            <i class="icon-shopping-cart icon-white"></i> <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
-          </a>
-        </li>
-      </ul>
     </div>
   </div>
 </header>
@@ -65,10 +54,23 @@
 
 <pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
 
-<div class="span4">
-  <p class="text-info">
-    <button class="btn btn-block" onclick="window.location.href='#/catalog'">
-      <i class="icon-chevron-left"></i> Back to categories
-    </button>
-  </p>
-</div>
+<footer class="navbar navbar-fixed-bottom fix">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>
+          <a href="" onclick="window.location.href='#/catalog';return false">Back</a>
+        </li>
+        <li>
+          <a href="#/cart/files">Orders</a>
+        </li>
+        <li ng-class="{disabled: cart.getItemCount() < 1}">
+          <a href="#/cart" ng-disabled="cart.getItemCount() < 1">Item cart ({{cart.getItemCount()}})</a>
+        </li>
+        <li>
+          <a>Total amt = {{cart.getTotalPrice() | currency}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

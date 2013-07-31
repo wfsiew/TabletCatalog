@@ -58,7 +58,7 @@ cart.prototype.addItem = function(sku, name, price, quantity, uom, catId) {
       }
     }
     
-    if (!found) {
+    if (!found && quantity > 0) {
       var item = new cartItem(sku, name, price, quantity, uom, catId);
       this.items.push(item);
     }
@@ -143,7 +143,7 @@ cart.prototype.toCsv = function() {
   var content = '';
   var count = 0;
   var total = 0;
-  var r = ['Item', 'Quantity', 'UOM', 'Unit Price', 'Nett'];
+  var r = ['SKU', 'Name', 'Quantity', 'UOM', 'Unit Price', 'Nett'];
   s.push(r.join(',') + "\n");
   
   for (var i = 0; i < this.items.length; i++) {
@@ -152,7 +152,8 @@ cart.prototype.toCsv = function() {
     total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
   
     r = [];
-    r.push('[' + item.sku + '] ' + item.name + ' ' + item.uom.label);
+    r.push(item.sku);
+    r.push(item.name + ' ' + item.uom.label);
     r.push(utils.toNumber(item.quantity));
     r.push(item.uom.code);
     r.push(utils.toFixNumberStr(item.price * item.uom.unit));

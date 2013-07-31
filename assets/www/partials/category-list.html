@@ -1,31 +1,38 @@
 <header class="navbar navbar-static-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<ul class="nav pull-left">
-				<li><a href="" onclick="navigator.app.exitApp();return false">Exit</a></li>
-			</ul>
 			<form class="navbar-search">
 				<input type="text" ng-model="query" placeholder="Search">
 			</form>
-			<ul class="nav pull-right">
-				<li>
-				  <a href="#/cart/files"> <b>Orders</b></a>
-				</li>
-				<li class="divider-vertical"></li>
-				<li>
-				  <a href="#/cart" ng-disabled="cart.getItemCount() < 1">
-						<i class="icon-shopping-cart icon-white"></i> <b>{{cart.getItemCount()}}</b> items, <b>{{cart.getTotalPrice() | currency}}</b>
-				  </a>
-				</li>
-			</ul>
 		</div>
 	</div>
 </header>
 
-<ul class="nav nav-tabs nav-stacked">
+<ul class="nav nav-tabs nav-stacked" style="padding-bottom: 40px">
 	<li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
 		<a href="#/catalog/{{cat.id}}">
 		  {{cat.name}} <span class="pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
 	  </a>
 	</li>
 </ul>
+
+<footer class="navbar navbar-fixed-bottom fix">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>
+          <a href="" onclick="navigator.app.exitApp();return false">Exit</a>
+        </li>
+        <li>
+          <a href="#/cart/files">Orders</a>
+        </li>
+        <li ng-class="{disabled: cart.getItemCount() < 1}">
+          <a href="#/cart" ng-disabled="cart.getItemCount() < 1">Item cart ({{cart.getItemCount()}})</a>
+        </li>
+        <li>
+          <a>Total amt = {{cart.getTotalPrice() | currency}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

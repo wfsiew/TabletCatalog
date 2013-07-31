@@ -4,7 +4,6 @@ function CategoryListCtrl($scope, $http, $dialog, DataService) {
   $scope.db;
   
   $scope.init = function() {
-    navigator.notification.beep(1);
     var opts = utils.customerDialogOpts();
     if ($scope.order.customer.name == null) {
       $dialog.dialog(opts)
@@ -251,7 +250,8 @@ function ShoppingCartCtrl($scope, $dialog, DataService) {
   $scope.fileSystem;
   
   $scope.exportCart = function() {
-    $scope.createDir('TabletOrder');
+    if ($scope.cart.getTotalCount() > 0)
+      $scope.createDir('TabletOrder');
   }
   
   $scope.setCustomer = function() {

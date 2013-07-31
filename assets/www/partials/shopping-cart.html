@@ -1,9 +1,10 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span8">
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped table-condensed">
         <tr class="well">
-          <td><b>Item</b></td>
+          <td><b>SKU</b>
+          <td><b>Name</b></td>
           <td class="tdCenter"><b>Quantity</b></td>
           <td class="tdCenter"><b>UOM</b></td>
           <td class="tdRight"><b>Unit Price</b></td>
@@ -11,15 +12,16 @@
           <td></td>
         </tr>
         <tr ng-hide="cart.getTotalCount() > 0">
-          <td class="tdCenter" colspan="5">
+          <td class="tdCenter" colspan="6">
             Your cart is empty.
           </td>
         </tr>
         <tr ng-repeat="item in cart.items | orderBy:'name'">
-          <td>[{{item.sku}}] {{item.name}}</td>
+          <td>{{item.sku}}</td>
+          <td>{{item.name}}</td>
           <td class="tdCenter">
             <div class="input-append">
-              <input class="span3 text-center" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" />
+              <input class="span3 text-center" type="tel" ng-model="item.quantity" ng-change="cart.saveItems()" style="width: 80px" />
               <button class="btn btn-success" type="button" 
                 ng-disabled="item.quantity >= 1000"
                 ng-click="cart.addItem(item.sku, item.name, item.price, +1, item.uom, item.catId)">+</button>
@@ -33,12 +35,12 @@
           <td class="tdRight">{{item.price * item.quantity * item.uom.unit | currency}}</td>
           <td class="tdCenter" title="remove from cart">
             <a href="" ng-click="cart.addItem(item.sku, item.name, item.price, -10000000, item.uom, item.catId)">
-              <i class="icon-remove icon-white"></i>
+              <i class="icon-remove"></i>
             </a>
           </td>
         </tr>
         <tr class="well">
-          <td><b>Total</b></td>
+          <td colspan="2" class="tdRight"><b>Total</b></td>
           <td class="tdCenter"><b>{{cart.getTotalCount()}}</b></td>
           <td></td>
           <td></td>
@@ -46,33 +48,29 @@
         </tr>
       </table>
     </div>
-    
-    <div class="span4">
-      <p class="text-info">
-        <button class="btn btn-block" onclick="window.location.href='#/catalog'">
-          <i class="icon-chevron-left"></i> Back to categories
-        </button>
-      </p>
-      
-      <br/>
-      
-      <p class="text-info">
-        <button class="btn btn-block btn-primary"
-          ng-click="setCustomer()">Change Customer</button>
-        <button class="btn btn-block btn-primary" 
-          ng-click="exportCart()" 
-          ng-disabled="cart.getTotalCount() < 1">
-          <i class="icon-download"></i> Export
-        </button>
-        <button class="btn btn-block btn-primary" onclick="window.location.href='#/cart/files'">
-          <i class="icon-file"></i> Orders
-        </button>
-        <button class="btn btn-block btn-danger" 
-          ng-click="cart.clearItems()" 
-          ng-disabled="cart.getTotalCount() < 1">
-          <i class="icon-trash icon-white"></i> Clear cart
-        </button>
-      </p>
-    </div>
   </div>
 </div>
+
+<footer class="navbar navbar-fixed-bottom fix">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>
+          <a onclick="window.history.back();return false">Back</a>
+        </li>
+        <li>
+          <a ng-click="setCustomer()">Change customer</a>
+        </li>
+        <li ng-class="{disabled: cart.getTotalCount() < 1}">
+          <a ng-click="exportCart()" ng-disabled="cart.getTotalCount() < 1">Export</a>
+        </li>
+        <li>
+          <a href="#/cart/files">Orders</a>
+        </li>
+        <li ng-class="{disabled: cart.getTotalCount() < 1}">
+          <a ng-click="cart.clearItems()" ng-disabled="cart.getTotalCount() < 1">Clear cart</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

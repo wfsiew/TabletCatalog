@@ -1,6 +1,4 @@
 body {
-  background-color: white;
-  padding-top: 20px;
 }
 
 .categories {
@@ -42,4 +40,8 @@ ul.product-thumbs img {
 .menu {
 	display: block;
 	position: static;
+}
+
+.fix {
+	position: fixed;
 }

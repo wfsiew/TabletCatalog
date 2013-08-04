@@ -17,6 +17,10 @@ angular.module('myapp', ['myappServices', 'ui.bootstrap', 'ui.utils']).
         templateUrl: 'partials/cart-files.html',
         controller: 'CartFilesCtrl'
       }).
+      when('/cart/files/arc', {
+        templateUrl: 'partials/cart-files.html',
+        controller: 'CartFilesArcCtrl'
+      }).
       otherwise({
         redirectTo: '/catalog'
       });

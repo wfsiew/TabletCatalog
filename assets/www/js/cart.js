@@ -143,7 +143,7 @@ cart.prototype.toCsv = function() {
   var content = '';
   var count = 0;
   var total = 0;
-  var r = ['SKU', 'Name', 'Quantity', 'UOM', 'Unit Price', 'Nett'];
+  var r = ['No.', 'SKU', 'Name', 'Quantity', 'UOM', 'Unit Price', 'Nett'];
   s.push(r.join(',') + "\n");
   
   for (var i = 0; i < this.items.length; i++) {
@@ -152,6 +152,7 @@ cart.prototype.toCsv = function() {
     total += utils.toFixNumber(item.quantity * item.price * item.uom.unit);
   
     r = [];
+    r.push(i + 1);
     r.push(item.sku);
     r.push(item.name + ' ' + item.uom.label);
     r.push(utils.toNumber(item.quantity));
@@ -162,7 +163,7 @@ cart.prototype.toCsv = function() {
     s.push(r.join(',') + "\n");
   }
   
-  r = ['Total', count, '', '', utils.toFixNumberStr(total)];
+  r = ['', '', 'Total', count, '', '', utils.toFixNumberStr(total)];
   s.push(r.join(',') + "\n\n");
   s.push('Customer name: ' + this.customer.name + "\n");
   s.push('Acc/No: ' + this.customer.accno + "\n");

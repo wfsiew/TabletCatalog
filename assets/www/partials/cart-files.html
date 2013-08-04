@@ -4,7 +4,7 @@
       <div ng-hide="hasNetwork">
         <alert type="error">No network connection available</alert>
       </div>
-      <table class="table table-bordered table-striped">
+      <table class="table table-bordered table-striped table-condensed">
         <tr class="well">
           <td><b>File</b></td>
           <td><b>Date</b></td>
@@ -31,13 +31,20 @@
         </tr>
       </table>
     </div>
-    
-    <div class="span4">
-      <p class="text-info">
-        <button class="btn btn-block" onclick="window.location.href='#/catalog'">
-          <i class="icon-chevron-left"></i> Back to categories
-        </button>
-      </p>
-    </div>
   </div>
 </div>
+
+<footer class="navbar navbar-fixed-bottom fix">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li>
+          <a onclick="window.history.back();return false">Back</a>
+        </li>
+        <li>
+          <a href="#/cart/files/arc">Archived Orders</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

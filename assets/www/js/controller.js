@@ -139,6 +139,8 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
       $scope.currentPage = $scope.pager.pagenum;
       $scope.maxSize = 10;
       
+      $(window).scrollTop(0);
+      
       $scope.$apply();
     });
   }
@@ -239,6 +241,19 @@ function ProductListCtrl($scope, $routeParams, $http, $filter, $dialog, DataServ
     clearTimeout($scope.typingTimer);
   }
   
+  $scope.hideKb = function() {
+    window.plugins.SoftKeyBoard.hide(null, null);
+  }
+  
+  $scope.qtyKeyup = function() {
+    clearTimeout($scope.typingTimer);
+    $scope.typingTimer = setTimeout($scope.hideKb, $scope.doneTypingInterval);
+  }
+  
+  $scope.qtyKeypress = function() {
+    clearTimeout($scope.typingTimer);
+  }
+  
   $scope.init();
 }
 
@@ -330,6 +345,7 @@ ShoppingCartCtrl.$inject = ['$scope', '$dialog', 'DataService'];
 function CartFilesCtrl($scope, $dialog, DataService) {
   $scope.fileSystem;
   $scope.mainDir;
+  $scope.arcDir;
   $scope.files = [];
   $scope.networkState;
   $scope.hasNetwork = false;
@@ -346,13 +362,14 @@ function CartFilesCtrl($scope, $dialog, DataService) {
   
   $scope.successGetFS = function(fileSystem) {
     $scope.fileSystem = fileSystem;
-    $scope.getDir('TabletOrder');
+    $scope.getDir('TabletOrder', $scope.successGetDir);
+    $scope.getDir('TabletOrderArchive', $scope.successGetDirArc);
   }
   
-  $scope.getDir = function(dir) {
+  $scope.getDir = function(dir, cb) {
     $scope.fileSystem.root.getDirectory(dir, 
-      {create: false, exclusive: false}, 
-      $scope.successGetDir, null);
+      {create: true, exclusive: false}, 
+      cb, null);
   }
 
   $scope.fail = function(error) {
@@ -362,6 +379,152 @@ function CartFilesCtrl($scope, $dialog, DataService) {
   $scope.successGetDir = function(parent) {
     var dirReader = parent.createReader();
     $scope.mainDir = parent;
+    dirReader.readEntries($scope.successLoadDir, null);
+  }
+  
+  $scope.successGetDirArc = function(parent) {
+    $scope.arcDir = parent;
+  }
+  
+  $scope.successLoadDir = function(entries) {
+    var n = entries.length;
+    $scope.files = [];
+    var a = [];
+
+    for (var i = 0; i < n; i++) {
+      if (entries[i].isFile) {
+        var f = entries[i];
+        f.createTime = $scope.getCreateTime(f.name);
+        a.push(f);
+      }
+    }
+
+    $scope.files = a;
+    $scope.orderProp = '-createTime';
+    if ($scope.networkState != Connection.NONE && $scope.networkState != Connection.UNKNOWN)
+      $scope.hasNetwork = true;
+
+    else
+      $scope.hasNetwork = false;
+
+    $scope.$apply();
+  }
+  
+  $scope.getCreateTime = function(name) {
+    var i = name.indexOf('_');
+    var j = name.indexOf('.');
+    var val = 0;
+
+    if (i >= 0 && j < name.length) {
+      var v = name.substring(i + 1, j);
+      val = parseInt(v);
+    }
+
+    return val;
+  }
+  
+  $scope.removeFile = function(f) {
+    var cb = function() {
+      var n = $scope.files.length;
+      for (var i = 0; i < n; i++) {
+        if (f.name == $scope.files[i].name) {
+          $scope.files.splice(i, 1);
+          break;
+        }
+      }
+  
+      $scope.$apply();
+    }
+
+    f.remove(cb, $scope.fail);
+  }
+  
+  $scope.sendEmail = function(f) { 
+    f.moveTo($scope.arcDir, f.name, $scope.successMoveFile, $scope.fail);
+  }
+  
+  $scope.successMoveFile = function(f) {
+    //window.plugins.emailComposer.showEmailComposerWithCallback(null,"Look at this photo","Take a look at <b>this<b/>:",["example@email.com", "johndoe@email.org"],[],[],true,["_complete_path/image.jpg", "_other_complete_path/file.zip"]);
+    var cb = function(a) {};
+    
+    //var cus = $scope.order.customer;
+    var msg = 'Please find the order attached.';
+
+    window.plugins.emailComposer.showEmailComposer(
+      'Order ' + $scope.getDateStr(f),
+      msg,
+      ['siewwingfei@hotmail.com'],
+      [],
+      [],
+      true,
+      [$scope.getFilePath(f)]);
+      
+    $scope.successGetDir($scope.mainDir);
+  }
+  
+  $scope.getDateStr = function(f) {
+    var v = $scope.getCreateTime(f.name);
+    var dt = new Date(v);
+    var s = dt.toLocaleString();
+
+    return s;
+  }
+  
+  $scope.showMessage = function(msg) {
+    var title = 'Send Order';
+    var btns = [{result:'ok', label: 'OK', cssClass: 'btn-primary'}];
+
+    $dialog.messageBox(title, msg, btns)
+      .open()
+      .then(function(result) {
+      });
+  }
+  
+  $scope.getFilePath = function(f) {
+    var s = f.fullPath.replace('file:///', '/');
+    return s;
+  }
+  
+  $scope.init();
+}
+
+CartFilesCtrl.$inject = ['$scope', '$dialog', 'DataService'];
+
+function CartFilesArcCtrl($scope, $dialog, DataService) {
+  $scope.fileSystem;
+  $scope.arcDir;
+  $scope.files = [];
+  $scope.networkState;
+  $scope.hasNetwork = false;
+  $scope.order = DataService.order;
+  
+  $scope.init = function() {
+    document.addEventListener("deviceready", $scope.onDeviceReady, true);
+  }
+  
+  $scope.onDeviceReady = function() {
+    $scope.networkState = navigator.connection.type;
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, $scope.successGetFS, $scope.fail);
+  }
+  
+  $scope.successGetFS = function(fileSystem) {
+    $scope.fileSystem = fileSystem;
+    $scope.getDir('TabletOrderArchive', $scope.successGetDirArc);
+  }
+  
+  $scope.getDir = function(dir, cb) {
+    $scope.fileSystem.root.getDirectory(dir, 
+      {create: true, exclusive: false}, 
+      cb, null);
+  }
+
+  $scope.fail = function(error) {
+    alert('Error: ' + error.toString());
+  }
+  
+  $scope.successGetDirArc = function(parent) {
+    var dirReader = parent.createReader();
+    $scope.arcDir = parent;
     dirReader.readEntries($scope.successLoadDir, null);
   }
   
@@ -418,17 +581,14 @@ function CartFilesCtrl($scope, $dialog, DataService) {
     f.remove(cb, $scope.fail);
   }
   
-  $scope.sendEmail = function(f) {
+  $scope.sendEmail = function(f) { 
     //window.plugins.emailComposer.showEmailComposerWithCallback(null,"Look at this photo","Take a look at <b>this<b/>:",["example@email.com", "johndoe@email.org"],[],[],true,["_complete_path/image.jpg", "_other_complete_path/file.zip"]);
     var cb = function(a) {};
     
-    var cus = $scope.order.customer;
-    var msg = 'Please find the order attached.' +
-    '<br/>Customer name: <b>' + cus.name + '</b>' +
-    '<br/>Acc/No: <b>' + cus.accno + '</b>';
+    //var cus = $scope.order.customer;
+    var msg = 'Please find the order attached.';
 
-    window.plugins.emailComposer.showEmailComposerWithCallback(
-      cb,
+    window.plugins.emailComposer.showEmailComposer(
       'Order ' + $scope.getDateStr(f),
       msg,
       ['siewwingfei@hotmail.com'],
@@ -436,6 +596,8 @@ function CartFilesCtrl($scope, $dialog, DataService) {
       [],
       true,
       [$scope.getFilePath(f)]);
+      
+    $scope.successGetDir($scope.arcDir);
   }
   
   $scope.getDateStr = function(f) {
@@ -447,7 +609,7 @@ function CartFilesCtrl($scope, $dialog, DataService) {
   }
   
   $scope.showMessage = function(msg) {
-    var title = 'Send Invoice';
+    var title = 'Send Order';
     var btns = [{result:'ok', label: 'OK', cssClass: 'btn-primary'}];
 
     $dialog.messageBox(title, msg, btns)
@@ -464,7 +626,7 @@ function CartFilesCtrl($scope, $dialog, DataService) {
   $scope.init();
 }
 
-CartFilesCtrl.$inject = ['$scope', '$dialog', 'DataService'];
+CartFilesArcCtrl.$inject = ['$scope', '$dialog', 'DataService'];
 
 function CustomerDialogCtrl($scope, dialog, DataService) {
   if (DataService.order.customer.name != null) {

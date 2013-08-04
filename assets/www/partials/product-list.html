@@ -9,6 +9,7 @@
 </header>
 
 <pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
+<span class="label label-info">{{pager.itemMsg()}}</span>
 
 <ul class="thumbnails product-thumbs">
   <li ng-repeat="product in products">
@@ -20,20 +21,14 @@
       <hr/>
       <table>
         <tr>
-          <td valign="top">UOM: </td>
           <td>
             <ul class="dropdown-menu menu" role="menu" aria-labelledby="dropdownMenu">
               <li ng-repeat="uom in product.uom">
                 <a ng-click="product.selecteduom = uom; checkPending(product)" ng-model="product.selecteduom" href="">{{uom.code}} {{uom.label}} {{uom.unit * product.price | currency}}</a>
+                <input ng-show="product.selecteduom != null && product.selecteduom.code == uom.code" ng-change="checkPending(product)" ng-model="product.quantity" type="number" min="1" style="width: 80px" required ng-pattern="number" ui-event="{keypress: 'qtyKeypress()', keyup: 'qtyKeyup()'}">
               </li>
             </ul>
             &nbsp;&nbsp;<b>{{product.selecteduom.code}}</b>
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">Quantity: </td>
-          <td>
-            <input ng-change="checkPending(product)" ng-model="product.quantity" type="number" min="1" style="width: 80px" required ng-pattern="number">
           </td>
         </tr>
       </table>
@@ -52,14 +47,17 @@
   </li>
 </ul>
 
-<pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
+<div style="padding-bottom: 100px">
+  <pagination on-select-page="gotoPage(page)" num-pages="noOfPages" current-page="currentPage" max-size="maxSize" boundary-links="true"></pagination>
+  <span class="label label-info">{{pager.itemMsg()}}</span>
+</div>
 
 <footer class="navbar navbar-fixed-bottom fix">
   <div class="navbar-inner">
     <div class="container">
       <ul class="nav">
         <li>
-          <a href="" onclick="window.location.href='#/catalog';return false">Back</a>
+          <a href="#/catalog">Back</a>
         </li>
         <li>
           <a href="#/cart/files">Orders</a>
@@ -69,6 +67,9 @@
         </li>
         <li>
           <a>Total amt = {{cart.getTotalPrice() | currency}}</a>
+        </li>
+        <li>
+          <a href="#/cart/files/arc">Archived Orders</a>
         </li>
       </ul>
     </div>

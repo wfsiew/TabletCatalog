@@ -3,6 +3,7 @@
     <div class="span8">
       <table class="table table-bordered table-striped table-condensed">
         <tr class="well">
+          <td class="tdRight"><b>No.</b></td>
           <td><b>SKU</b>
           <td><b>Name</b></td>
           <td class="tdCenter"><b>Quantity</b></td>
@@ -12,11 +13,12 @@
           <td></td>
         </tr>
         <tr ng-hide="cart.getTotalCount() > 0">
-          <td class="tdCenter" colspan="6">
+          <td class="tdCenter" colspan="7">
             Your cart is empty.
           </td>
         </tr>
         <tr ng-repeat="item in cart.items | orderBy:'name'">
+          <td class="tdRight">{{$index + 1}}.</td>
           <td>{{item.sku}}</td>
           <td>{{item.name}}</td>
           <td class="tdCenter">
@@ -40,7 +42,7 @@
           </td>
         </tr>
         <tr class="well">
-          <td colspan="2" class="tdRight"><b>Total</b></td>
+          <td colspan="3" class="tdRight"><b>Total</b></td>
           <td class="tdCenter"><b>{{cart.getTotalCount()}}</b></td>
           <td></td>
           <td></td>
@@ -69,6 +71,9 @@
         </li>
         <li ng-class="{disabled: cart.getTotalCount() < 1}">
           <a ng-click="cart.clearItems()" ng-disabled="cart.getTotalCount() < 1">Clear cart</a>
+        </li>
+        <li>
+          <a href="#/cart/files/arc">Archived Orders</a>
         </li>
       </ul>
     </div>

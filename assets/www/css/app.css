@@ -45,3 +45,7 @@ ul.product-thumbs img {
 .fix {
 	position: fixed;
 }
+
+.padd {
+	padding-bottom: 40px;
+}

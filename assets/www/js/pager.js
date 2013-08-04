@@ -14,6 +14,10 @@ pager.prototype.set = function(total, pagenum, pagesize) {
   this.setPageSize(pagesize);
 }
 
+pager.prototype.itemMsg = function() {
+  return utils.itemMsg(this.total, this.pagenum, this.pagesize);
+}
+
 pager.prototype.lowerBound = function() {
   return (this.pagenum - 1) * this.pagesize;
 }

@@ -25,10 +25,25 @@ var utils = (function() {
     return opts;
   }
   
+  function itemMsg(total, pagenum, pagesize) {
+    var x = (pagenum - 1) * pagesize + 1;
+    var y = pagenum * pagesize;
+    
+    if (total < y)
+      y = total;
+      
+    if (total < 1)
+      return "";
+      
+    var s = x + ' to ' + y + ' of ' + total;
+    return s;
+  }
+  
   return {
     toNumber: toNumber,
     toFixNumber: toFixNumber,
     toFixNumberStr: toFixNumberStr,
-    customerDialogOpts: customerDialogOpts
+    customerDialogOpts: customerDialogOpts,
+    itemMsg: itemMsg
   }
 }());

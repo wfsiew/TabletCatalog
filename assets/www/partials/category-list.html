@@ -8,10 +8,11 @@
 	</div>
 </header>
 
-<ul class="nav nav-tabs nav-stacked" style="padding-bottom: 40px">
+<ul class="nav nav-tabs nav-stacked padd">
 	<li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
 		<a href="#/catalog/{{cat.id}}">
-		  {{cat.name}} <span class="pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
+		 <span class="badge pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
+		 {{cat.name}}
 	  </a>
 	</li>
 </ul>
@@ -31,6 +32,9 @@
         </li>
         <li>
           <a>Total amt = {{cart.getTotalPrice() | currency}}</a>
+        </li>
+        <li>
+          <a href="#/cart/files/arc">Archived Orders</a>
         </li>
       </ul>
     </div>

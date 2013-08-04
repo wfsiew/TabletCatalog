@@ -108,5 +108,6 @@
         <plugin name="FileTransfer" value="org.apache.cordova.FileTransfer"/>
         <plugin name="EmailComposer" value="org.apache.cordova.EmailComposer"/>
         <plugin name="SQLitePlugin" value="org.pgsqlite.SQLitePlugin"/>
+        <plugin name="SoftKeyBoard" value="com.zenexity.SoftKeyBoardPlugin.SoftKeyBoard"/>
     </plugins>
 </widget>

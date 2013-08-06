@@ -12,7 +12,7 @@
   <li ng-repeat="cat in categories | filter:query | orderBy:orderProp">
     <a href="#/catalog/{{cat.id}}">
       <span class="badge pull-right" ng-hide="cart.getItemCountByCategory(cat.id) < 1">{{cart.getItemCountByCategory(cat.id)}}, {{cart.getTotalPriceByCategory(cat.id) | currency}}</span>
-      {{cat.name}}
+      {{cat.name}} ({{cat.productCount}})
     </a>
   </li>
 </ul>

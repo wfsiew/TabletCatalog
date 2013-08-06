@@ -42,7 +42,8 @@ function CategoryListCtrl($scope, $http, $dialog, DataService) {
         var a = [];
         for (var i = 0; i < n; i++) {
           var r = res.rows.item(i);
-          a.push({id: r.id, name: r.name});
+          var o = {id: r.id, name: r.name, productCount: r.product_count};
+          a.push(o);
         }
     
         $scope.categories = a;

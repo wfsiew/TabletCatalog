@@ -460,7 +460,9 @@ function CartFilesCtrl($scope, $dialog, DataService) {
       true,
       [$scope.getFilePath(f)]);
       
-    $scope.successGetDir($scope.mainDir);
+    $scope.order.clear();
+    window.location.href = '#/catalog';
+    //$scope.successGetDir($scope.mainDir);
   }
   
   $scope.getDateStr = function(f) {
